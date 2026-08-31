@@ -2,5 +2,9 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class SongsService {
-  findAll() {}
+  private readonly songs = [];
+  findAll() {
+    // return 'This action returns all songs from service file';
+    return this.songs;
+  }
 }
