@@ -1,7 +1,7 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
-import { LoggerMiddleware } from './common/middleware/logger/logger.middleware.js';
+import { LoggerMiddleware } from './common/middleware/logger.middleware.js';
 import { SongsController } from './songs/songs.controller.js';
 import { SongsModule } from './songs/songs.module.js';
 
