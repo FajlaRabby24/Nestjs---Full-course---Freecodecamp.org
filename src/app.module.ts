@@ -6,6 +6,7 @@ import { Artist } from './artists/artists.entity.js';
 import { LoggerMiddleware } from './common/middleware/logger.middleware.js';
 import { DevConfigService } from './common/providers/DevConfigService.js';
 import { Playlist } from './playlists/playlists.entity.js';
+import { PlayListModule } from './playlists/playlists.module.js';
 import { Song } from './songs/song.entity.js';
 import { SongsController } from './songs/songs.controller.js';
 import { SongsModule } from './songs/songs.module.js';
@@ -29,6 +30,7 @@ const proConfig = {
       entities: [Song, User, Artist, Playlist],
       synchronize: true,
     }),
+    PlayListModule,
     SongsModule,
   ],
   controllers: [AppController],
