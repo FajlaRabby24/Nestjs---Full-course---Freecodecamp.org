@@ -28,7 +28,7 @@ const proConfig = {
       username: 'postgres',
       password: '12345',
       entities: [Song, User, Artist, Playlist],
-      synchronize: true,
+      synchronize: process.env.NODE_ENV === 'development',
     }),
     PlayListModule,
     SongsModule,

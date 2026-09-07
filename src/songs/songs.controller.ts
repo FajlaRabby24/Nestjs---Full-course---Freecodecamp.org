@@ -1,29 +1,33 @@
 import {
+  Body,
   Controller,
+  Delete,
   Get,
-  HttpException,
   HttpStatus,
   Param,
   ParseIntPipe,
+  Patch,
+  Post,
 } from '@nestjs/common';
+import { DeleteResult, UpdateResult } from 'typeorm';
+import { CreateSongDto } from './dto/create-song-dto.js';
+import { UpdateSongDto } from './dto/update-song.dto.js';
+import { Song } from './song.entity.js';
 import { SongsService } from './songs.service.js';
 
 @Controller('songs')
 export class SongsController {
   constructor(private songService: SongsService) {}
+
+  //* create song
+  @Post()
+  create(@Body() createSongDto: CreateSongDto): Promise<Song> {
+    return this.songService.create(createSongDto);
+  }
+
   @Get()
   findAll() {
-    try {
-      return this.songService.findAll();
-    } catch (error) {
-      throw new HttpException(
-        'server error',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-        {
-          cause: error,
-        },
-      );
-    }
+    return this.songService.findAll();
   }
 
   @Get(':id')
@@ -33,7 +37,30 @@ export class SongsController {
       new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
     )
     id: number,
-  ) {
-    return `This action returns a #${typeof id} song`;
+  ): Promise<Song> {
+    return this.songService.findById(id);
+  }
+
+  @Delete(':id')
+  remove(
+    @Param(
+      'id',
+      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
+    )
+    id: number,
+  ): Promise<DeleteResult> {
+    return this.songService.remove(id);
+  }
+
+  @Patch(':id')
+  update(
+    @Param(
+      'id',
+      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
+    )
+    id: number,
+    @Body() updateSongDto: UpdateSongDto,
+  ): Promise<UpdateResult> {
+    return this.songService.update(id, updateSongDto);
   }
 }
