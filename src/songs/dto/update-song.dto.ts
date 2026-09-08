@@ -15,7 +15,7 @@ export class UpdateSongDto {
   @IsOptional()
   @IsArray()
   @IsNumber({}, { each: true })
-  readonly artists: string[];
+  readonly artists: number[];
 
   @IsDateString()
   @IsOptional()
