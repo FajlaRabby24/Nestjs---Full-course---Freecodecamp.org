@@ -34,6 +34,9 @@ export class SongsService {
     const artists = await this.artistsRepository.findBy({
       id: In(songDto.artists),
     });
+    if (!artists.length) {
+      throw new BadRequestException('Artist not found');
+    }
     //* set the relation with artist and songs
     song.artists = artists;
     const result = await this.songsRepository.save(song);
