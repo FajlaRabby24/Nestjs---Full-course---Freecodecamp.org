@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Artist } from '../artists/artists.entity.js';
 import { connection } from '../common/constants/connection.js';
@@ -12,7 +13,10 @@ const mockService = {
   },
 };
 @Module({
-  imports: [TypeOrmModule.forFeature([Song, Artist])],
+  imports: [
+    TypeOrmModule.forFeature([Song, Artist]),
+    PassportModule.register({ defaultStrategy: 'jwt' }),
+  ],
   controllers: [SongsController],
   providers: [
     SongsService,
@@ -32,3 +36,5 @@ const mockService = {
   ],
 })
 export class SongsModule {}
+
+// 3:45

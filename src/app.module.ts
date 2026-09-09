@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { Artist } from './artists/artists.entity.js';
+import { AuthModule } from './auth/auth.module.js';
 import { LoggerMiddleware } from './common/middleware/logger.middleware.js';
 import { DevConfigService } from './common/providers/DevConfigService.js';
 import { Playlist } from './playlists/playlists.entity.js';
@@ -11,8 +12,8 @@ import { Song } from './songs/song.entity.js';
 import { SongsController } from './songs/songs.controller.js';
 import { SongsModule } from './songs/songs.module.js';
 import { User } from './users/user.entity.js';
-import { AuthModule } from './auth/auth.module.js';
 import { UsersModule } from './users/users.module.js';
+import { ArtistsModule } from './artists/artists.module.js';
 
 const devConfig = {
   port: 3000,
@@ -36,6 +37,7 @@ const proConfig = {
     SongsModule,
     AuthModule,
     UsersModule,
+    ArtistsModule,
   ],
   controllers: [AppController],
   providers: [
