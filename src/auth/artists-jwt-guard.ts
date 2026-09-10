@@ -23,7 +23,7 @@ export class ArtistJwtGuard extends AuthGuard('jwt') {
         )
       );
     }
-    console.log('artist from guards : ', user);
+
     if (user.artistId) {
       return user;
     }
