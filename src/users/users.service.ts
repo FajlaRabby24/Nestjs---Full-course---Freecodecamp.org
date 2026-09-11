@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcryptjs';
 import { Repository, UpdateResult } from 'typeorm';
+import { v4 as uuid4 } from 'uuid';
 import { CreateUserDTO } from './dto/create-user.dto.js';
 import { User } from './user.entity.js';
 
@@ -14,12 +15,18 @@ export class UsersService {
 
   // create user
   async create(userDto: CreateUserDTO): Promise<User> {
-    const salt = await bcrypt.genSalt();
-    userDto.password = await bcrypt.hash(userDto.password, salt);
+    const user = new User();
+    user.firstName = userDto.firstName;
+    user.lastName = userDto.lastName;
+    user.email = userDto.email;
+    user.apiKey = uuid4();
 
-    const user = await this.userRepo.save(userDto);
-    user.password = '';
-    return user;
+    const salt = await bcrypt.genSalt(); // 2.
+    user.password = await bcrypt.hash(userDto.password, salt); // 3.
+
+    const savedUser = await this.userRepo.save(user);
+    savedUser.password = '';
+    return savedUser;
   }
 
   // * find one
@@ -63,5 +70,9 @@ export class UsersService {
         enable2FA: true,
       },
     );
+  }
+
+  async findByApiKey(apiKey: string): Promise<User | null> {
+    return this.userRepo.findOneBy({ apiKey });
   }
 }

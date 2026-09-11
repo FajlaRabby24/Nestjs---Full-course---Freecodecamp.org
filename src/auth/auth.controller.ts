@@ -7,6 +7,7 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { UpdateResult } from 'typeorm';
 import { CreateUserDTO } from '../users/dto/create-user.dto.js';
 import { User } from '../users/user.entity.js';
@@ -59,5 +60,18 @@ export class AuthController {
       req.user.userId,
       validateTokenDto.token,
     );
+  }
+
+  @Get('profile')
+  @UseGuards(AuthGuard('bearer'))
+  getProfile(
+    @Request()
+    req: any,
+  ) {
+    delete req.user.password;
+    return {
+      msg: 'authenticated with api key',
+      user: req.user,
+    };
   }
 }

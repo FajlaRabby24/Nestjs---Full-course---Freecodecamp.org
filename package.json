@@ -19,7 +19,12 @@
     "test:watch": "vitest",
     "test:cov": "vitest run --coverage",
     "test:debug": "vitest --inspect-brk --no-file-parallelism",
-    "test:e2e": "vitest run --config ./vitest.config.e2e.ts"
+    "test:e2e": "vitest run --config ./vitest.config.e2e.ts",
+    "typeorm": "typeorm-ts-node-commonjs -d src/data-source.ts",
+    "migrate:dev": "npm run typeorm -- migration:generate",
+    "migrate:run": "npm run typeorm -- migration:run",
+    "migrate:revert": "npm run typeorm -- migration:revert",
+    "migrate:deploy": "npm run build && typeorm -d dist/data-source.js migration:run"
   },
   "dependencies": {
     "@nestjs/common": "^12.0.1",
@@ -34,12 +39,15 @@
     "class-validator": "^0.15.1",
     "nestjs-typeorm-paginate": "^4.1.0",
     "passport": "^0.7.0",
+    "passport-http-bearer": "^1.0.1",
     "passport-jwt": "^4.0.1",
     "pg": "^8.23.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
     "speakeasy": "^2.0.0",
-    "typeorm": "^1.1.1"
+    "ts-node": "^10.9.2",
+    "typeorm": "^1.1.1",
+    "uuid": "^14.0.2"
   },
   "devDependencies": {
     "@nestjs/cli": "^12.0.0",
@@ -49,6 +57,7 @@
     "@types/bcryptjs": "^3.0.0",
     "@types/express": "^5.0.0",
     "@types/node": "^24.0.0",
+    "@types/passport-http-bearer": "^1.0.42",
     "@types/passport-jwt": "^4.0.1",
     "@types/speakeasy": "^2.0.10",
     "@types/supertest": "^7.0.0",
