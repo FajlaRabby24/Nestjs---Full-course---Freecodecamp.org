@@ -11,6 +11,7 @@ import { PlayListModule } from './playlists/playlists.module.js';
 import { SongsController } from './songs/songs.controller.js';
 import { SongsModule } from './songs/songs.module.js';
 import { UsersModule } from './users/users.module.js';
+import { SeedModule } from './seed/seed.module.js';
 
 const devConfig = {
   port: 3000,
@@ -27,6 +28,7 @@ const proConfig = {
     AuthModule,
     UsersModule,
     ArtistsModule,
+    SeedModule,
   ],
   controllers: [AppController],
   providers: [
