@@ -13,18 +13,17 @@
     "start": "nest start",
     "dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "node dist/src/main",
     "lint": "oxlint src/ test/",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:cov": "vitest run --coverage",
     "test:debug": "vitest --inspect-brk --no-file-parallelism",
     "test:e2e": "vitest run --config ./vitest.config.e2e.ts",
-    "typeorm": "typeorm-ts-node-commonjs -d src/data-source.ts",
-    "migrate:dev": "npm run typeorm -- migration:generate",
-    "migrate:run": "npm run typeorm -- migration:run",
-    "migrate:revert": "npm run typeorm -- migration:revert",
-    "migrate:deploy": "npm run build && typeorm -d dist/data-source.js migration:run"
+    "typeorm": "npm run build && npx typeorm -d dist/db/data-source.js",
+    "migration:generate": "npm run typeorm -- migration:generate",
+    "migration:run": "npm run typeorm -- migration:run",
+    "migration:revert": "npm run typeorm -- migration:revert"
   },
   "dependencies": {
     "@nestjs/common": "^12.0.1",
