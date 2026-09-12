@@ -1,4 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcryptjs';
 import * as speakeasy from 'speakeasy';
@@ -16,6 +17,7 @@ export class AuthService {
     private userService: UsersService,
     private jwtService: JwtService,
     private artistsService: ArtistsService,
+    private configService: ConfigService,
   ) {}
 
   //* signup
@@ -105,5 +107,9 @@ export class AuthService {
       throw new UnauthorizedException('Invalid API Key');
     }
     return user;
+  }
+
+  async getEnv() {
+    return this.configService.get('PORT');
   }
 }

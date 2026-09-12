@@ -1,17 +1,20 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { dataSourceOptions } from '../db/data-source.js';
+import { typeOrmAsyncConfiguration } from '../db/data-source.js';
+import { validate } from '../env.validation.js';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { ArtistsModule } from './artists/artists.module.js';
 import { AuthModule } from './auth/auth.module.js';
 import { LoggerMiddleware } from './common/middleware/logger.middleware.js';
 import { DevConfigService } from './common/providers/DevConfigService.js';
+import configuration from './config/configuration.js';
 import { PlayListModule } from './playlists/playlists.module.js';
+import { SeedModule } from './seed/seed.module.js';
 import { SongsController } from './songs/songs.controller.js';
 import { SongsModule } from './songs/songs.module.js';
 import { UsersModule } from './users/users.module.js';
-import { SeedModule } from './seed/seed.module.js';
 
 const devConfig = {
   port: 3000,
@@ -22,7 +25,19 @@ const proConfig = {
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(dataSourceOptions),
+    ConfigModule.forRoot({
+      envFilePath: [
+        `${process.env.NODE_ENV}.env`,
+        '.env.development',
+        '.env.production',
+        '.env.local',
+        '.env',
+      ],
+      isGlobal: true,
+      load: [configuration],
+      validate: validate,
+    }),
+    TypeOrmModule.forRootAsync(typeOrmAsyncConfiguration),
     PlayListModule,
     SongsModule,
     AuthModule,
